@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana
+  namespace: elastic
+  labels:
+    app: kibana
+  annotations:
+    ingress.cilium.io/loadbalancer-mode: 'shared'
+    ingress.cilium.io/service-type: 'Loadbalancer'
+spec:
+  ingressClassName: 'cilium'
+  rules:
+  - host: kibana.magedu.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kibana
+            port:
+              number: 3000
